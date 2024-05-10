@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Data Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #searchInput {
+            margin: 10px auto;
+            display: block;
+            padding: 8px;
+            width: 300px;
+            font-size: 16px;
+        }
+
+        #analyzeBtn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #analyzeBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #analysisButtons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .analysisButton {
+            margin: 5px;
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .analysisButton:hover {
+            background-color: #0056b3;
+        }
+
+        #analysisResults {
+            margin-top: 20px;
+        }
+
+        .analysisCategory {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .analysisCategory h2 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        @media screen and (max-width: 600px) {
+            #searchInput {
+                width: 80%;
+            }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Log Data Analysis Tool</h1>
+    <input type="text" id="searchInput" placeholder="Search analysis categories..." onkeyup="filterCategories()">
+    <button id="analyzeBtn">Analyze Log Data</button>
+    <div id="analysisButtons">
+        <!-- Analysis buttons will be added dynamically here -->
+    </div>
+    <div id="analysisResults"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#analyzeBtn').click(function() {
+                $.get('/analyze', function(data) {
+                    displayAnalysisResults(data.analysisResult);
+                });
+            });
+
+            $('#analysisButtons').on('click', '.analysisButton', function() {
+                var id = $(this).data('id');
+                scrollToAnalysis(id);
+            });
+        });
+
+        function displayAnalysisResults(analysisResult) {
+            const analysisResultsDiv = $('#analysisResults');
+            analysisResultsDiv.empty();
+            for (let category in analysisResult) {
+                if (analysisResult.hasOwnProperty(category)) {
+                    const categoryDiv = $('<div class="analysisCategory"></div>');
+                    categoryDiv.attr('id', category);
+                    const heading = $('<h2></h2>').text(formatCategoryName(category));
+                    categoryDiv.append(heading);
+                    const table = $('<table></table>');
+                    const data = analysisResult[category];
+                    for (let item in data) {
+                        if (data.hasOwnProperty(item)) {
+                            const row = $('<tr></tr>');
+                            const cell1 = $('<td></td>').text(item);
+                            const cell2 = $('<td></td>').text(data[item]);
+                            row.append(cell1, cell2);
+                            table.append(row);
+                        }
+                    }
+                    categoryDiv.append(table);
+                    analysisResultsDiv.append(categoryDiv);
+                }
+            }
+            createAnalysisButtons(Object.keys(analysisResult));
+        }
+
+        function formatCategoryName(name) {
+            return name.replace(/([A-Z])/g, ' $1').trim();
+        }
+
+        function scrollToAnalysis(id) {
+            $('html, body').animate({
+                scrollTop: $('#' + id).offset().top
+            }, 1000);
+        }
+
+        function filterCategories() {
+            var input, filter, div, categoryDivs, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            div = document.getElementById('analysisResults');
+            categoryDivs = div.getElementsByClassName('analysisCategory');
+            for (let i = 0; i < categoryDivs.length; i++) {
+                txtValue = categoryDivs[i].id.toUpperCase();
+                if (txtValue.indexOf(filter) > -1) {
+                    categoryDivs[i].style.display = "";
+                } else {
+                    categoryDivs[i].style.display = "none";
+                }
+            }
+        }
+
+        function createAnalysisButtons(categories) {
+            const analysisButtonsDiv = $('#analysisButtons');
+            analysisButtonsDiv.empty();
+            categories.forEach(category => {
+                const button = $('<button class="analysisButton"></button>');
+                button.text(formatCategoryName(category));
+                button.data('id', category);
+                analysisButtonsDiv.append(button);
+            });
+        }
+    </script>
+</body>
+</html>

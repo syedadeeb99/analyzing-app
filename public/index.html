@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Data Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            margin: 20px;
+        }
+        .analysis-section {
+            margin-bottom: 20px;
+        }
+        .analysis-section h2 {
+            margin-bottom: 10px;
+        }
+        .analysis-result {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Log Data Analysis Results</h1>
+    </header>
+    <main>
+        <section class="analysis-section">
+            <h2>Analysis 1: Average Number of Words per Log Entry</h2>
+            <div class="analysis-result" id="average-words"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 2: Average Number of Digits per Log Entry</h2>
+            <div class="analysis-result" id="average-digits"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 3: Log Severity Distribution</h2>
+            <div class="analysis-result" id="log-severity-distribution"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 4: Log Level Distribution</h2>
+            <div class="analysis-result" id="log-level-distribution"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 5: Log Type Distribution</h2>
+            <div class="analysis-result" id="log-type-distribution"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 6: User Activity Distribution</h2>
+            <div class="analysis-result" id="user-activity-distribution"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 7: Keyword "Error" Occurrences</h2>
+            <div class="analysis-result" id="keyword-error-occurrences"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 8: Log Message Length Distribution</h2>
+            <div class="analysis-result" id="log-message-length-distribution"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 9: Timestamp Occurrences</h2>
+            <div class="analysis-result" id="timestamp-occurrences"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 10: User Activity Duration</h2>
+            <div class="analysis-result" id="user-activity-duration"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 11: Sentiment Analysis Results</h2>
+            <div class="analysis-result" id="sentiment-analysis-results"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 12: Number of Unique Log Messages</h2>
+            <div class="analysis-result" id="unique-log-messages"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 13: Timestamp Extremes</h2>
+            <div class="analysis-result" id="timestamp-extremes"></div>
+        </section>
+        <section class="analysis-section">
+            <h2>Analysis 14: Log Message Extremes</h2>
+            <div class="analysis-result" id="log-message-extremes"></div>
+        </section>
+    </main>
+
+    <script>
+        // Sample log data for demonstration
+        const logData = [
+            { 'Log Message': 'Error Code: ABC123 Log Severity: High Log Level: Error Log Type: System User Activity: Login Timestamp: 2023-12-31 23:59:59' },
+            { 'Log Message': 'Error Code: XYZ456 Log Severity: Medium Log Level: Warning Log Type: Application User Activity: Logout Timestamp: 2023-12-31 23:58:58' },
+            // Add more log entries here...
+        ];
+
+        // Function to extract digits from text
+        function extractDigits(text) {
+            // Check if text is undefined or null
+            if (!text) {
+                return 0;
+            }
+            // Count the number of digits in the text
+            const digits = text.match(/\d/g);
+            return digits ? digits.length : 0;
+        }
+
+        // Function to extract words from text
+        function extractWords(text) {
+            // Check if text is undefined or null
+            if (!text) {
+                return 0;
+            }
+            // Count the number of words in the text
+            const words = text.match(/\b\w+\b/g);
+            return words ? words.length : 0;
+        }
+
+        // Function to calculate the average number of words per log entry
+        function calculateAverageWords(data) {
+            const totalWords = data.reduce((acc, entry) => acc + extractWords(entry['Log Message']), 0);
+            return totalWords / data.length;
+        }
+
+        // Function to calculate the average number of digits per log entry
+        function calculateAverageDigits(data) {
+            const totalDigits = data.reduce((acc, entry) => acc + extractDigits(entry['Log Message']), 0);
+            return totalDigits / data.length;
+        }
+
+        // Function to calculate the distribution of log severities
+        function calculateLogSeverityDistribution(data) {
+            const logSeverityCounts = {};
+            data.forEach(entry => {
+                const logSeverity = entry['Log Severity'];
+                logSeverityCounts[logSeverity] = (logSeverityCounts[logSeverity] || 0) + 1;
+            });
+            return logSeverityCounts;
+        }
+
+        // Function to calculate the distribution of log levels
+        function calculateLogLevelDistribution(data) {
+            const logLevelCounts = {};
+            data.forEach(entry => {
+                const logLevel = entry['Log Level'];
+                logLevelCounts[logLevel] = (logLevelCounts[logLevel] || 0) + 1;
+            });
+            return logLevelCounts;
+        }
+
+        // Function to calculate the distribution of log types
+        function calculateLogTypeDistribution(data) {
+            const logTypeCounts = {};
+            data.forEach(entry => {
+                const logType = entry['Log Type'];
+                logTypeCounts[logType] = (logTypeCounts[logType] || 0) + 1;
+            });
+            return logTypeCounts;
+        }
+
+        // Function to calculate the distribution of user activities
+        function calculateUserActivityDistribution(data) {
+            const userActivityCounts = {};
+            data.forEach(entry => {
+                const userActivity = entry['User Activity'];
+                userActivityCounts[userActivity] = (userActivityCounts[userActivity] || 0) + 1;
+            });
+            return userActivityCounts;
+        }
+
+        // Function to count the occurrences of specific keywords in log messages
+        function countKeywordOccurrences(data, keyword) {
+            let keywordCount = 0;
+            data.forEach(entry => {
+                const logMessage = entry['Log Message'];
+                if (logMessage.includes(keyword)) {
+                    keywordCount++;
+                }
+            });
+            return keywordCount;
+        }
+
+        // Function to calculate the length distribution of log messages
+        function calculateLogMessageLengthDistribution(data) {
+            const lengthDistribution = {};
+            data.forEach(entry => {
+                const logMessage = entry['Log Message'];
+                const length = logMessage.length;
+                lengthDistribution[length] = (lengthDistribution[length] || 0) + 1;
+            });
+            return lengthDistribution;
+        }
+
+        // Function to count the frequency of each timestamp occurrence
+        function countTimestampOccurrences(data) {
+            const timestampCounts = {};
+            data.forEach(entry => {
+                const timestamp = entry['Timestamp'];
+                timestampCounts[timestamp] = (timestampCounts[timestamp] || 0) + 1;
+            });
+            return timestampCounts;
+        }
+
+        // Function to calculate the duration of each user activity
+        function calculateUserActivityDuration(data) {
+            const activityDuration = {};
+            data.forEach(entry => {
+                const userActivity = entry['User Activity'];
+                const timestamp = new Date(entry['Timestamp']).getTime();
+                if (!activityDuration[userActivity]) {
+                    activityDuration[userActivity] = { minTimestamp: timestamp, maxTimestamp: timestamp };
+                } else {
+                    if (timestamp < activityDuration[userActivity].minTimestamp) {
+                        activityDuration[userActivity].minTimestamp = timestamp;
+                    }
+                    if (timestamp > activityDuration[userActivity].maxTimestamp) {
+                        activityDuration[userActivity].maxTimestamp = timestamp;
+                    }
+                }
+            });
+
+            // Calculate duration for each activity
+            Object.keys(activityDuration).forEach(activity => {
+                const duration = activityDuration[activity].maxTimestamp - activityDuration[activity].minTimestamp;
+                activityDuration[activity] = duration / (1000 * 60); // Convert milliseconds to minutes
+            });
+
+            return activityDuration;
+        }
+
+        // Function to perform sentiment analysis on log messages
+        function performSentimentAnalysis(data) {
+            // Dummy function for demonstration purposes
+            // This function could be replaced with a real sentiment analysis algorithm
+            const sentimentAnalysisResults = {};
+            data.forEach(entry => {
+                const logMessage = entry['Log Message'];
+                // Perform sentiment analysis on log message
+                // For demonstration, just assign a random sentiment
+                sentimentAnalysisResults[logMessage] = Math.random() > 0.5 ? 'Positive' : 'Negative';
+            });
+            return sentimentAnalysisResults;
+        }
+
+        // Function to count the number of unique log messages
+        function countUniqueLogMessages(data) {
+            return new Set(data.map(entry => entry['Log Message'])).size;
+        }
+
+        // Function to find the earliest and latest timestamps
+        function findTimestampExtremes(data) {
+            const timestamps = data.map(entry => new Date(entry['Timestamp']).getTime());
+            const earliestTimestamp = new Date(Math.min(...timestamps));
+            const latestTimestamp = new Date(Math.max(...timestamps));
+            return { earliestTimestamp, latestTimestamp };
+        }
+
+        // Function to find the longest and shortest log messages
+        function findLogMessageExtremes(data) {
+            let longestMessage = '';
+            let shortestMessage = data[0]['Log Message'];
+            data.forEach(entry => {
+                const logMessage = entry['Log Message'];
+                if (logMessage.length > longestMessage.length) {
+                    longestMessage = logMessage;
+                }
+                if (logMessage.length < shortestMessage.length) {
+                    shortestMessage = logMessage;
+                }
+            });
+            return { longestMessage, shortestMessage };
+        }
+
+        // Display analysis results
+        document.getElementById('average-words').textContent = `Average number of words per log entry: ${calculateAverageWords(logData)}`;
+        document.getElementById('average-digits').textContent = `Average number of digits per log entry: ${calculateAverageDigits(logData)}`;
+        document.getElementById('log-severity-distribution').textContent = `Log Severity Distribution: ${JSON.stringify(calculateLogSeverityDistribution(logData))}`;
+        document.getElementById('log-level-distribution').textContent = `Log Level Distribution: ${JSON.stringify(calculateLogLevelDistribution(logData))}`;
+        document.getElementById('log-type-distribution').textContent = `Log Type Distribution: ${JSON.stringify(calculateLogTypeDistribution(logData))}`;
+        document.getElementById('user-activity-distribution').textContent = `User Activity Distribution: ${JSON.stringify(calculateUserActivityDistribution(logData))}`;
+        document.getElementById('keyword-error-occurrences').textContent = `Keyword "Error" Occurrences: ${countKeywordOccurrences(logData, 'Error')}`;
+        document.getElementById('log-message-length-distribution').textContent = `Log Message Length Distribution: ${JSON.stringify(calculateLogMessageLengthDistribution(logData))}`;
+        document.getElementById('timestamp-occurrences').textContent = `Timestamp Occurrences: ${JSON.stringify(countTimestampOccurrences(logData))}`;
+        document.getElementById('user-activity-duration').textContent = `User Activity Duration: ${JSON.stringify(calculateUserActivityDuration(logData))}`;
+        document.getElementById('sentiment-analysis-results').textContent = `Sentiment Analysis Results: ${JSON.stringify(performSentimentAnalysis(logData))}`;
+        document.getElementById('unique-log-messages').textContent = `Number of Unique Log Messages: ${countUniqueLogMessages(logData)}`;
+        document.getElementById('timestamp-extremes').textContent = `Timestamp Extremes: ${JSON.stringify(findTimestampExtremes(logData))}`;
+        document.getElementById('log-message-extremes').textContent = `Log Message Extremes: ${JSON.stringify(findLogMessageExtremes(logData))}`;
+    </script>
+</body>
+</html>

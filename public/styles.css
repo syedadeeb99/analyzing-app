@@ -1,0 +1,113 @@
+/* styles.css */
+
+/* Style for list items */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 20px; /* Adjusted margin */
+}
+
+/* Style for the log data container */
+#processed-data {
+    width: 100%; /* Ensure the container occupies 100% width */
+    margin-top: 40px; /* Increased margin */
+    border: 1px solid #ccc;
+    padding: 40px; /* Increased padding */
+    border-radius: 16px; /* Increased border radius */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Increased box shadow */
+}
+
+/* Style for the log data container paragraphs */
+#processed-data p {
+    margin-bottom: 20px; /* Adjusted margin */
+}
+
+/* Style for each table */
+.table-container {
+    width: 100%; /* Make the container occupy the entire width */
+    margin-bottom: 40px; /* Increased margin */
+}
+
+table {
+    width: 100%; /* Make the table occupy the entire width */
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    border-radius: 16px; /* Increased border radius */
+}
+
+/* Style for table header */
+th {
+    padding: 24px; /* Increased padding */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-right: 100%; /* Set border right to 100% */
+    background-color: #f2f2f2;
+}
+
+/* Style for table cells */
+td {
+    padding: 24px; /* Increased padding */
+    border-bottom: 1px solid #ddd;
+    border-right: 100%; /* Set border right to 100% */
+}
+
+/* Style for total number of log entries */
+.total-entries {
+    font-weight: bold;
+    margin-bottom: 40px; /* Increased margin */
+}
+
+/* Style for unique error codes */
+.unique-error-codes {
+    font-style: italic;
+    margin-bottom: 40px; /* Increased margin */
+}
+
+/* Style for most frequent error code */
+.most-frequent-error-code {
+    font-weight: bold;
+    margin-bottom: 40px; /* Increased margin */
+}
+
+/* Style for additional analysis paragraphs */
+.additional-analysis p {
+    margin-bottom: 20px; /* Adjusted margin */
+}
+
+/* Style for sentiment analysis results */
+.sentiment-analysis-results {
+    margin-bottom: 40px; /* Increased margin */
+    font-style: italic;
+}
+
+/* Style for log message length distribution */
+.log-message-length-distribution {
+    margin-bottom: 40px; /* Increased margin */
+    font-style: italic;
+}
+
+/* Style for frequency of timestamps */
+.timestamp-frequency {
+    margin-bottom: 40px; /* Increased margin */
+    font-style: italic;
+}
+
+/* Style for user activity duration */
+.user-activity-duration {
+    margin-bottom: 40px; /* Increased margin */
+    font-style: italic;
+}
+
+/* New styles for positive and negative count */
+.positive-count,
+.negative-count {
+    font-weight: bold;
+    color: #008000;
+}
+
+.negative-count {
+    color: #FF0000;
+}
